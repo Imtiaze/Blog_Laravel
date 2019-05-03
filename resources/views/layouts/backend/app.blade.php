@@ -21,14 +21,14 @@
   <link href="{{ asset('assets/backend/plugins/morrisjs/morris.css') }} " rel="stylesheet" />
   <link href="{{ asset('assets/backend/css/style.css') }} " rel="stylesheet">
   <link href="{{ asset('assets/backend/css/themes/all-themes.css') }} " rel="stylesheet" />
-
+  <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 
   @stack('css')
   
  
 </head>
 <body class="theme-blue">
-  <div class="page-loader-wrapper">
+  {{-- <div class="page-loader-wrapper">
     <div class="loader">
         <div class="preloader">
             <div class="spinner-layer pl-red">
@@ -42,7 +42,7 @@
         </div>
         <p>Please wait...</p>
     </div>
-  </div>
+  </div> --}}
 
   <div class="overlay"></div>
 
@@ -84,11 +84,22 @@
   <script src="{{ asset('assets/backend/plugins/flot-charts/jquery.flot.categories.js') }} "></script>
   <script src="{{ asset('assets/backend/plugins/flot-charts/jquery.flot.time.js') }} "></script>
   <script src="{{ asset('assets/backend/plugins/jquery-sparkline/jquery.sparkline.js') }} "></script>
-  <script src="{{ asset('assets/backend/js/admin.js') }} "></script>
-  <script src="{{ asset('assets/backend/js/pages/index.js') }} "></script>
-  <script src="{{ asset('assets/backend/js/demo.js') }} "></script>
-        
+  
+ 
     
+  <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+  {!! Toastr::message() !!}
+
+  <script>
+    @if($errors->any())
+     @foreach($errors->all() as $error)
+      toastr["error"]("{{ $error }}", 'Error', {
+        "closeButton" : true,
+       "positionClass": "toast-top-center",
+      });
+     @endforeach
+    @endif
+  </script>
 
   @stack('js')
 </body>
