@@ -46,7 +46,15 @@
                         <i class="material-icons">label</i>
                         <span>TAGS</span>
                     </a>
-                </li>
+                </li> 
+                <li class="{{ Request::is('admin/category') ? 'active' : '' }}">
+                    <a href="{{ route('admin.category.index') }}">
+                        <i class="material-icons">dashboard</i>
+                        <span>CATEGORY</span>
+                    </a>
+                </li> 
+               
+                
                 <li class="header">System</li>
                 <li>
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

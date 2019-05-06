@@ -4,7 +4,7 @@ use Carbon\Carbon;
 
 @extends('layouts.backend.app')
 
-@section('title', 'Tag')
+@section('title', 'Category')
 
 
 @push('css')
@@ -17,8 +17,8 @@ use Carbon\Carbon;
 @section('content')
 <div class="container-fluid">
     <div class="block-header">
-        <a class="btn btn-primary waves-effect" href="{{ route('admin.tag.create') }}"><i class="material-icons">add</i>
-            <span>Add new Tag</span> 
+        <a class="btn btn-primary waves-effect" href="{{ route('admin.category.create') }}"><i class="material-icons">add</i>
+            <span>Add new Category</span> 
         </a>
     </div>
     
@@ -28,7 +28,7 @@ use Carbon\Carbon;
             <div class="card">
                 <div class="header">
                     <h2>
-                        TAGS
+                        CATEGORY
                     </h2>
                     
                 </div>
@@ -44,23 +44,30 @@ use Carbon\Carbon;
                                     
                                 </tr>
                             </thead>
+
+                            <tfoot>
+                                <th>Serial</th>
+                                <th>Name</th>
+                                <th>Create at</th>
+                                <th>Action</th>
+                            </tfoot>
                           
                             <tbody>
                                 @php
                                     $i = 1;
                                 @endphp
-                                @foreach ($tags as $tag)
+                                @foreach ($categories as $category)
                                     <tr>
                                         <td>{{ $i++ }}</td>
-                                         <td>{{$tag->name}}</td>
-                                         <td>{{$tag->created_at->toDayDateTimeString()}}</td>
+                                         <td>{{$category->name}}</td>
+                                         <td>{{$category->created_at->toDayDateTimeString()}}</td>
                                         <td>
-                                            <a class="waves-effect btn btn-primary" href="{{ route('admin.tag.edit', $tag->id) }}"><i class="material-icons">edit</i></a>
+                                            <a class="waves-effect btn btn-primary" href="{{ route('admin.category.edit', $category->id) }}"><i class="material-icons">edit</i></a>
                                             
                                             <button 
-                                            type="submit" class="waves-effect btn btn-danger" onclick="deleteTag({{ $tag->id}})" ><i class="material-icons">delete</i></button>
+                                            type="submit" class="waves-effect btn btn-danger" onclick="deleteCategory({{ $category->id}})" ><i class="material-icons">delete</i></button>
 
-                                            <form id="delete-form-{{ $tag->id }}" action="{{ route('admin.tag.destroy', $tag->id) }}" method="post">
+                                            <form id="delete-form-{{ $category->id }}" action="{{ route('admin.category.destroy', $category->id) }}" method="post">
                                                 @csrf
                                                 @method("DELETE")
 
@@ -105,7 +112,7 @@ use Carbon\Carbon;
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
     <script type="text/javascript">
-        function deleteTag(id){
+        function deleteCategory(id){
             const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-success',
@@ -132,7 +139,7 @@ use Carbon\Carbon;
             ) {
                 swalWithBootstrapButtons.fire(
                 'Cancelled',
-                'Your TAG is safe :)',
+                'Your  CATEGORY is safe :)',
                 'error'
                 )
             }
