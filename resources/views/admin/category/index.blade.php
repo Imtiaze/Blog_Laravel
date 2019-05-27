@@ -28,7 +28,8 @@ use Carbon\Carbon;
             <div class="card">
                 <div class="header">
                     <h2>
-                        CATEGORY
+                        ALL CATEGORY
+                        <span class="badge bg-blue">{{ $categories->count() }}</span>
                     </h2>
                     
                 </div>
@@ -39,6 +40,7 @@ use Carbon\Carbon;
                                 <tr>
                                     <th>Serial</th>
                                     <th>Name</th>
+                                    <th>Posts Count</th>
                                     <th>Create at</th>
                                     <th>Action</th>
                                     
@@ -48,6 +50,7 @@ use Carbon\Carbon;
                             <tfoot>
                                 <th>Serial</th>
                                 <th>Name</th>
+                                <th>Posts Count</th>
                                 <th>Create at</th>
                                 <th>Action</th>
                             </tfoot>
@@ -60,6 +63,7 @@ use Carbon\Carbon;
                                     <tr>
                                         <td>{{ $i++ }}</td>
                                          <td>{{$category->name}}</td>
+                                         <td>{{$category->posts->count()}}</td>
                                          <td>{{$category->created_at->toDayDateTimeString()}}</td>
                                         <td>
                                             <a class="waves-effect btn btn-primary" href="{{ route('admin.category.edit', $category->id) }}"><i class="material-icons">edit</i></a>

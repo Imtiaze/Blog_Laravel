@@ -42,12 +42,12 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-           // 'category' => 'required|unique:categories',
-            'image' => 'required|mimes:jpeg,bmp,png'
+            'name' => 'required',
+            'image' => 'required|image'
         ]);
         //get the image from form
         $image = $request->file('image');
-        $slug  = str_slug($request->category);
+        $slug  = str_slug($request->name);
         
         if(isset($image)){
             //make unique name for image
@@ -77,7 +77,7 @@ class CategoryController extends Controller
         }
 
         $cat = new Category();
-        $cat->name = $request->category;
+        $cat->name = $request->name;
         $cat->slug = $slug;
         $cat->image = $imageName;
 

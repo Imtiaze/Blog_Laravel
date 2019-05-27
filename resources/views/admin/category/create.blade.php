@@ -19,7 +19,7 @@
                     @csrf
                     <div class="form-group">
                         <div class="form-line">
-                            <input type="text"  name="category" class="form-control" placeholder="Enter a Tag name">
+                            <input type="text" class="form-control" name="name" placeholder="Enter a Tag name">
                         </div>
                     </div>
                     <div class="form-group">
