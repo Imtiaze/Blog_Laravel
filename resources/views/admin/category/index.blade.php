@@ -64,7 +64,7 @@ use Carbon\Carbon;
                                         <td>{{ $i++ }}</td>
                                          <td>{{$category->name}}</td>
                                          <td>{{$category->posts->count()}}</td>
-                                         <td>{{$category->created_at->toDayDateTimeString()}}</td>
+                                         <td>{{$category->created_at}}</td>
                                         <td>
                                             <a class="waves-effect btn btn-primary" href="{{ route('admin.category.edit', $category->id) }}"><i class="material-icons">edit</i></a>
                                             

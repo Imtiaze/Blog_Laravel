@@ -5,6 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Category;
+use App\Tag;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Auth;
+use Brian2694\Toastr\Facades\Toastr;
 
 class PostController extends Controller
 {
@@ -26,7 +33,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('admin.post.create', compact('categories', 'tags'));
     }
 
     /**
@@ -37,7 +46,55 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title'     => 'required',
+            'image'     => 'required',
+            'categories'=> 'required',
+            'tags'      => 'required',
+            'body'      => 'required',
+        ]);
+
+        $image = $request->file('image');
+        $slug  = str_slug($request->title);
+
+        if(isset($image)){
+            //make unique name for image
+            $currentDate = Carbon::now()->toDateString();
+            $imageName   = $slug.'-'.$currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+
+            //check directory and make directory
+            if(!Storage::disk('public')->exists('posts')){
+                Storage::disk('public')->makeDirectory('post');
+            }
+
+            //resize image
+            $postImage = Image::make($image)->resize(1600,1066)->stream();
+
+            //Upload photo
+            Storage::disk('public')->put('post/'.$imageName,$postImage);
+        } else {
+            $imageName = "default.png";
+        }
+
+        $post = new Post();
+        $post->user_id  =  Auth::id();
+        $post->title    =  $request->title;
+        $post->slug     =  $slug;
+        $post->image    =  $imageName;
+        $post->body     =  $request->body;
+        if(isset($request->status)){
+            $post->status = true;
+        } else {
+            $post->status = false;
+        }
+        $post->is_approved = true;
+        $post->save();
+
+        $post->categories()->attach($request->categories);
+        $post->tags()->attach($request->tags);
+
+        Toastr::success('Post Successfully Saved', 'Success');
+        return redirect()->route('admin.post.index');
     }
 
     /**
@@ -48,7 +105,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('admin.post.show', compact('post'));
     }
 
     /**
@@ -59,7 +116,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $categories = Category::all();
+        $tags       = Tag::all();
+        return view('admin.post.edit', compact('post','categories', 'tags'));
     }
 
     /**
@@ -71,7 +130,56 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'title'     => 'required',
+            'image'     => 'image',
+            'categories'=> 'required',
+            'tags'      => 'required',
+            'body'      => 'required',
+        ]);
+
+        $image = $request->file('image');
+        $slug  = str_slug($request->title);
+
+        if(isset($image)){
+            //unique name
+            $currentDate = Carbon::now()->toDateString();
+            $imageName = $slug.'-'.$currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+
+            //make dirctory or exist direcotry
+            if(!Storage::disk('public')->exists('post')){
+                Storage::disk('public')->makeDirectory('post');
+            }
+            //delete old image
+            if(Storage::disk('public')->exists('post/'.$post->image)){
+                Storage::disk('public')->delete('post/'.$post->image);
+            }
+            //upload image
+            $postImage = Image::make($image)->resize(1600,1066)->stream();
+            Storage::disk('public')->put('post/'.$imageName,$postImage);
+        } else {
+            $imageName = $post->image;
+        }
+
+        $post->user_id = Auth::id();
+        $post->title   = $request->title;
+        $post->slug    = $slug;
+        $post->image   = $imageName;
+        $post->body    = $request->body;
+        if(isset($request->status)){
+            $post->status = true;
+        } else {
+            $post->status = false;
+        }
+        $post->is_approved = true;
+        $post->save();
+
+        $post->categories()->sync($request->categories);
+        $post->tags()->sync($request->tags);
+
+        Toastr::success('Post Successfully Updated', 'Success');
+        return redirect()->route('admin.post.index');
+
     }
 
     /**

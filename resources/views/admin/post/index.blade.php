@@ -45,7 +45,6 @@ use Carbon\Carbon;
                                     <th>Is Apporved</th>
                                     <th>Status</th>
                                     <th>Created At</th>
-                                    <th>Updated At</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -58,7 +57,6 @@ use Carbon\Carbon;
                                 <th>Is Apporved</th>
                                 <th>Status</th>
                                 <th>Created At</th>
-                                <th>Updated At</th>
                                 <th>Action</th>
                             </tfoot>
                           
@@ -84,8 +82,9 @@ use Carbon\Carbon;
                                             @endif
                                         </td>
                                         <td>{{ $post->created_at }}</td>
-                                        <td>{{ $post->updated_at }}</td>
                                         <td>
+                                            <a class="waves-effect btn btn-success" href="{{ route('admin.post.show', $post->id) }}"><i class="material-icons">visibility</i></a>
+                                            
                                             <a class="waves-effect btn btn-primary" href="{{ route('admin.post.edit', $post->id) }}"><i class="material-icons">edit</i></a>
                                             
                                             <button 

@@ -54,7 +54,7 @@ use Carbon\Carbon;
                                     <tr>
                                         <td>{{ $i++ }}</td>
                                          <td>{{$tag->name}}</td>
-                                         <td>{{$tag->created_at->toDayDateTimeString()}}</td>
+                                         <td>{{$tag->created_at}}</td>
                                         <td>
                                             <a class="waves-effect btn btn-primary" href="{{ route('admin.tag.edit', $tag->id) }}"><i class="material-icons">edit</i></a>
                                             
