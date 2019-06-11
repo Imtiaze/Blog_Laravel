@@ -17,10 +17,27 @@ use Carbon\Carbon;
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                
+            <a class="btn btn-danger waves-effect" href="{{ route('admin.post.index') }}">BACK</a>
+            
+            @if ($post->is_approved ==  false)
+                <button type="button" class="btn btn-success pull-right waves-effect">
+                    <i class="material-icons">done</i>
+                    <span>Approve</span>
+                </button>
+            @else
+                <button type="button" class="btn btn-success pull-right" disabled>
+                    <i class="material-icons">done</i>
+                    <span>Approved</span>
+                </button>
+            @endif
+            <br>
+            <br>
+            <br>
                 <div class="card">
                     <div class="header">
                         <h1>{{ $post->title}}</h1>
-                        <p>posted by <strong>{{ $post->user->name }}</strong> on {{ $post->created_at->toDayDateTimeString() }}</p>
+                        <p>posted by <strong>{{ $post->user->name }}</strong> on {{ $post->created_at->toFormatteddateString() }}</p>
                         
                     </div>
                     <div class="body">
