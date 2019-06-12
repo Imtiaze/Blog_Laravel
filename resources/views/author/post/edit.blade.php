@@ -1,6 +1,6 @@
 @extends('layouts.backend.app')
 
-@section('title', 'Post - Create')
+@section('title', 'Post - Update')
 
 @push('css')
     <!-- Bootstrap Select Css -->
@@ -10,22 +10,23 @@
 
 @section('content')
 <!-- Vertical Layout -->
-<form  method="post" action="{{ route('admin.post.store') }}" enctype="multipart/form-data">
+<form  method="post" action="{{ route('author.post.update', $post->id) }}" enctype="multipart/form-data">
     @csrf
+    @method('PATCH')
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-6">
                 <div class="card">
                     <div class="header">
                         <h2>
-                            Add Post
+                            Update Post
                         </h2>
                         
                     </div>
                     <div class="body">
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" class="form-control" name="title" placeholder="Enter post title">
+                                <input type="text" class="form-control" name="title" value="{{ $post->title}}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -34,14 +35,14 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="checkbox" id="publish" class="filled-in" name="status" value="1">
+                            <input type="checkbox" id="publish" class="filled-in" name="status" value="1" {{ $post->status == true ? 'checked': '' }}>
                             <label for="publish">Publish</label>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-6">
                 <div class="card">
                     <div class="header">
                         <h2>
@@ -56,7 +57,11 @@
                                 <label for="category">Select Category</label>
                                 <select name="categories[]" id="category" class="form-control show-tick" data-live-search="true" multiple>
                                     @foreach ($categories as $category)
-                                        <option value="{{$category->id}}"> {{ $category->name }}</option>
+                                        <option 
+                                        @foreach ($post->categories as $postCategories)
+                                            {{ $category->id == $postCategories->id ? 'selected':'' }}
+                                        @endforeach
+                                        value="{{$category->id}}"> {{ $category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -67,7 +72,11 @@
                                 <label for="tag">Select Tag</label>
                                 <select name="tags[]" id="tag" class="form-control show-tick" data-live-search="true" multiple>
                                     @foreach ($tags as $tag)
-                                        <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                        <option 
+                                        @foreach ($post->tags as $postTags)
+                                            {{ $tag->id == $postTags->id ? 'selected':'' }}
+                                        @endforeach
+                                        value="{{ $tag->id }}">{{ $tag->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -75,8 +84,8 @@
                         
                         
                         <br>
-                        <a class="btn btn-danger m-t-15 waves-effect" href="{{ route('admin.post.index') }}">BACK</a>
-                        <button type="submit" class="btn btn-primary m-t-15 waves-effect">INSERT</button>
+                        <a class="btn btn-danger m-t-15 waves-effect" href="{{ route('author.post.index') }}">BACK</a>
+                        <button type="submit" class="btn btn-primary m-t-15 waves-effect">UPDATE</button>
                     </div>
                 </div>
             </div>
@@ -93,7 +102,7 @@
                     
                 </div>
                 <div class="body">
-                    <textarea id="tinymce" name="body"  ></textarea>
+                    <textarea id="tinymce" name="body"  >{{$post->body}}</textarea>
                 </div>
             </div>
         </div>

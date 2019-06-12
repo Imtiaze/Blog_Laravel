@@ -10,11 +10,11 @@
 
 @section('content')
 <!-- Vertical Layout -->
-<form  method="post" action="{{ route('admin.post.store') }}" enctype="multipart/form-data">
+<form  method="post" action="{{ route('author.post.store') }}" enctype="multipart/form-data">
     @csrf
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-6">
                 <div class="card">
                     <div class="header">
                         <h2>
@@ -41,7 +41,7 @@
                 </div>
             </div>
             
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-6">
                 <div class="card">
                     <div class="header">
                         <h2>
@@ -75,7 +75,7 @@
                         
                         
                         <br>
-                        <a class="btn btn-danger m-t-15 waves-effect" href="{{ route('admin.post.index') }}">BACK</a>
+                        <a class="btn btn-danger m-t-15 waves-effect" href="{{ route('author.post.index') }}">BACK</a>
                         <button type="submit" class="btn btn-primary m-t-15 waves-effect">INSERT</button>
                     </div>
                 </div>

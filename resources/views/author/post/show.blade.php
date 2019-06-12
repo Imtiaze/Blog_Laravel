@@ -18,17 +18,13 @@ use Carbon\Carbon;
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                 
-            <a class="btn btn-danger waves-effect" href="{{ route('admin.post.index') }}">BACK</a>
+            <a class="btn btn-danger waves-effect" href="{{ route('author.post.index') }}">BACK</a>
             
             @if ($post->is_approved ==  false)
-                <button type="button" class="btn btn-success pull-right waves-effect" onclick="approvePost({{$post->id}})">
+                <button type="button" class="btn btn-success pull-right waves-effect">
                     <i class="material-icons">done</i>
                     <span>Approve</span>
                 </button>
-                <form action="{{ route('admin.post.approve', $post->id) }}" method="POST" id="approve-form-{{$post->id}}" style="display:none;">
-                    @csrf
-                    @method('PATCH')
-                </form>
             @else
                 <button type="button" class="btn btn-success pull-right" disabled>
                     <i class="material-icons">done</i>
@@ -89,42 +85,6 @@ use Carbon\Carbon;
 @endsection
 
 @push('js')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-
-<script type="text/javascript">
-    function approvePost(id){
-        const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: 'btn btn-success',
-            cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false,
-        })
-
-        swalWithBootstrapButtons.fire({
-        title: 'Are you sure?',
-        text: "This post will be Published!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
-        }).then((result) => {
-        if (result.value) {
-            event.preventDefault();
-            document.getElementById("approve-form-"+ id).submit();
-        } else if (
-            // Read more about handling dismissals
-            result.dismiss === Swal.DismissReason.cancel
-        ) {
-            swalWithBootstrapButtons.fire(
-            'Cancelled',
-            'Do not Publish :)',
-            'error'
-            )
-        }
-        })
-    }
-</script>
+    
 
 @endpush

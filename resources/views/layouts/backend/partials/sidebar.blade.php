@@ -59,6 +59,13 @@
                         <i class="material-icons">library_books</i>
                         <span>POSTS</span>
                     </a>
+                </li>
+                
+                <li class="{{ Request::is('admin/pending/post') ? 'active' : '' }}">
+                    <a href="{{ route('admin.post.pending') }}">
+                        <i class="material-icons">library_books</i>
+                        <span>PENDING POSTS</span>
+                    </a>
                 </li> 
                
                 
@@ -77,22 +84,28 @@
             
 
             @if (Request::is('author*'))
-            <li class="{{ Request::is('author/dashboard') ? 'active' : '' }}">
-                <a href="{{ route('author.dashboard') }}">
-                    <i class="material-icons">dashboard</i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <li class="header">System</li>
-            <li>
-                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <li class="{{ Request::is('author/dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('author.dashboard') }}">
+                        <i class="material-icons">dashboard</i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="{{ Request::is('author/post*') ? 'active' : '' }}">
+                    <a href="{{ route('author.post.index') }}">
+                        <i class="material-icons">library_books</i>
+                        <span>POSTS</span>
+                    </a>
+                </li>
+                <li class="header">System</li>
+                <li>
+                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="material-icons">input</i>
                     <span>Log Out </span>
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
-            </li>
+                </li>
             @endif
 
             {{-- <li>
