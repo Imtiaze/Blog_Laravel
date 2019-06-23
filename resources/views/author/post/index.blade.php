@@ -90,7 +90,7 @@ use Carbon\Carbon;
                                             <button 
                                             type="submit" class="waves-effect btn btn-danger" onclick="deletePost({{ $post->id}})" ><i class="material-icons">delete</i></button>
 
-                                            <form id="delete-fo rm-{{ $post->id }}" action="{{ route('author.post.destroy', $post->id) }}" method="post">
+                                            <form id="delete-form-{{ $post->id }}" action="{{ route('author.post.destroy', $post->id) }}" method="post">
                                                 @csrf
                                                 @method("DELETE")
 
